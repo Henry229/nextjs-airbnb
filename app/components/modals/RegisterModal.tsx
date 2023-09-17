@@ -31,6 +31,7 @@ export default function RegisterModal() {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
+    console.log('++++ RegisterModal : ', data);
 
     axios
       .post('/api/register', data)

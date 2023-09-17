@@ -1,6 +1,5 @@
 'use client';
 
-import axios from 'axios';
 import { AiFillGithub } from 'react-icons/ai';
 import { signIn } from 'next-auth/react';
 import { FcGoogle } from 'react-icons/fc';
@@ -13,10 +12,12 @@ import Heading from '../navbar/Heading';
 import Input from '../inputs/Input';
 import Button from '../navbar/Button';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 export default function LoginModal() {
+  const router = useRouter();
   const registerModal = useRegisterModal();
-  const LoginModal = useLoginModal();
+  const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -33,19 +34,22 @@ export default function LoginModal() {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
 
-    axios
-      .post('/api/register', data)
-      .then(() => {
-        // toast.success('Registered!');
-        registerModal.onClose();
-        // loginModal.onOpen();
-      })
-      .catch((error) => {
-        toast.error('Something went wrong!');
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    signIn('credentials', {
+      ...data,
+      redirect: false,
+    }).then((callback) => {
+      setIsLoading(false);
+
+      if (callback?.ok) {
+        toast.success('Logged in');
+        router.refresh();
+        loginModal.onClose();
+      }
+
+      if (callback?.error) {
+        toast.error(callback.error);
+      }
+    });
   };
 
   const bodyContent = (
@@ -115,10 +119,10 @@ export default function LoginModal() {
   return (
     <Modal
       disabled={isLoading}
-      isOpen={LoginModal.isOpen}
+      isOpen={loginModal.isOpen}
       title='Login'
       actionLabel='Continue'
-      onClose={LoginModal.onClose}
+      onClose={loginModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}
