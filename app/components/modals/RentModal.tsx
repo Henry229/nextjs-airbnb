@@ -2,6 +2,8 @@
 
 import useRentModal from '@/app/hooks/useRentModal';
 
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+
 import Modal from './Modal';
 import { useMemo, useState } from 'react';
 import Heading from '../navbar/Heading';
@@ -21,6 +23,42 @@ export default function RentModal() {
   const rentModal = useRentModal();
 
   const [step, setStep] = useState(STEPS.CATEGORY);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+    reset,
+  } = useForm<FieldValues>({
+    defaultValues: {
+      category: '',
+      location: null,
+      guestCount: 1,
+      roomCount: 1,
+      bathroomCount: 1,
+      imageSrc: '',
+      price: 1,
+      title: '',
+      description: '',
+    },
+  });
+
+  const location = watch('location');
+  const category = watch('category');
+  const guestCount = watch('guestCount');
+  const roomCount = watch('roomCount');
+  const bathroomCount = watch('bathroomCount');
+  const imageSrc = watch('imageSrc');
+
+  const setCustomValue = (id: string, value: any) => {
+    setValue(id, value, {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true,
+    });
+  };
 
   const onBack = () => {
     setStep((value) => value - 1);
@@ -65,8 +103,8 @@ export default function RentModal() {
         {categories.map((item) => (
           <div key={item.label} className='col-span-1'>
             <CategoryInput
-              // onClick={(category) => setCustomValue('category', category)}
-              // selected={category === item.label}
+              onClick={(category) => setCustomValue('category', category)}
+              selected={category === item.label}
               label={item.label}
               icon={item.icon}
             />
