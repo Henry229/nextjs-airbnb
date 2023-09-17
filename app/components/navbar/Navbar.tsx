@@ -5,6 +5,7 @@ import Logo from './Logo';
 import Search from './Search';
 import UserMenu from './UserMenu';
 import ClientOnly from '../ClientOnly';
+import Categories from './Categories';
 
 interface NavbarProps {
   currentUser?: User | null;
@@ -22,6 +23,7 @@ export default function Navbar({ currentUser }: NavbarProps) {
           </div>
         </ClientOnly>
       </div>
+      <Categories />
     </div>
   );
 }
