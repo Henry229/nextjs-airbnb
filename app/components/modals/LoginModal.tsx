@@ -52,6 +52,11 @@ export default function LoginModal() {
     });
   };
 
+  const onToggle = useCallback(() => {
+    loginModal.onClose();
+    registerModal.onOpen();
+  }, [loginModal, registerModal]);
+
   const bodyContent = (
     <div className='flex flex-col gap-4'>
       <Heading title='Welcome back' subtitle='Login to your account' />
@@ -98,20 +103,19 @@ export default function LoginModal() {
           font-light
         '
       >
-        <p>
-          Already have an account?
-          <span
-            onClick={registerModal.onClose}
+        <div className='justify-center flex flex-row items-center gap-2'>
+          <div>First time using Airbnb?</div>
+          <div
+            onClick={onToggle}
             className='
               text-neutral-800
               cursor-pointer 
               hover:underline
             '
           >
-            {' '}
-            Log in
-          </span>
-        </p>
+            Create an account
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -6,12 +6,12 @@ import Button from '../navbar/Button';
 
 interface ModalProps {
   isOpen?: boolean;
-  onClose?: () => void;
-  onSubmit?: () => void;
+  onClose: () => void;
+  onSubmit: () => void;
   title?: string;
   body?: React.ReactElement;
   footer?: React.ReactElement;
-  actionLabel?: string;
+  actionLabel: string;
   disabled?: boolean;
   secondaryAction?: () => void;
   secondaryActionLabel?: string;
@@ -141,7 +141,7 @@ export default function Modal({
                 >
                   <IoMdClose size={18} />
                 </button>
-                <div className='text-lg font-semibold'>{title}</div>
+                <div className='text-2xl font-bold'>{title}</div>
               </div>
               {/*body*/}
               <div className='relative p-6 flex-auto'>{body}</div>

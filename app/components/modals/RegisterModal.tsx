@@ -12,9 +12,12 @@ import Heading from '../navbar/Heading';
 import Input from '../inputs/Input';
 import Button from '../navbar/Button';
 import toast from 'react-hot-toast';
+// import LoginModal from './LoginModal';
+import useLoginModal from '@/app/hooks/useLoginModal';
 
 export default function RegisterModal() {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -47,6 +50,11 @@ export default function RegisterModal() {
         setIsLoading(false);
       });
   };
+
+  const onToggle = useCallback(() => {
+    registerModal.onClose();
+    loginModal.onOpen();
+  }, [loginModal, registerModal]);
 
   const bodyContent = (
     <div className='flex flex-col gap-4'>
@@ -102,20 +110,19 @@ export default function RegisterModal() {
           font-light
         '
       >
-        <p>
-          Already have an account?
-          <span
-            onClick={registerModal.onClose}
+        <div className='justify-center flex flex-row items-center gap-2'>
+          <div>Already have an account?</div>
+          <div
+            onClick={onToggle}
             className='
               text-neutral-800
               cursor-pointer 
               hover:underline
             '
           >
-            {' '}
             Log in
-          </span>
-        </p>
+          </div>
+        </div>
       </div>
     </div>
   );
