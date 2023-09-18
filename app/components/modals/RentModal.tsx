@@ -114,12 +114,29 @@ export default function RentModal() {
     </div>
   );
 
+  if (step === STEPS.LOCATION) {
+    bodyContent = (
+      <div className='flex flex-col gap-8'>
+        <Heading
+          title='Where is your place located?'
+          subtitle='Help guests find you!'
+        />
+        {/* <CountrySelect
+      //     value={location}
+      //     onChange={(value) => setCustomValue('location', value)}
+        />
+         <Map center={location?.latlng} /> */}
+      </div>
+    );
+  }
+
   return (
     <Modal
       // disabled={isLoading}
       isOpen={rentModal.isOpen}
       title='Airbnb your home!'
-      onSubmit={rentModal.onClose}
+      onSubmit={onNext}
+      // onSubmit={rentModal.onClose}
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
