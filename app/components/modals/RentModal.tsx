@@ -9,6 +9,9 @@ import { useMemo, useState } from 'react';
 import Heading from '../navbar/Heading';
 import { categories } from '@/app/constants/categories';
 import CategoryInput from '../inputs/CategoryInput';
+import CountrySelect from '../inputs/CoutnrySelect';
+import Map from '../Map';
+import dynamic from 'next/dynamic';
 
 enum STEPS {
   CATEGORY = 0,
@@ -51,6 +54,14 @@ export default function RentModal() {
   const roomCount = watch('roomCount');
   const bathroomCount = watch('bathroomCount');
   const imageSrc = watch('imageSrc');
+
+  const Map = useMemo(
+    () =>
+      dynamic(() => import('../Map'), {
+        ssr: false,
+      }),
+    [location]
+  );
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -121,11 +132,11 @@ export default function RentModal() {
           title='Where is your place located?'
           subtitle='Help guests find you!'
         />
-        {/* <CountrySelect
-      //     value={location}
-      //     onChange={(value) => setCustomValue('location', value)}
+        <CountrySelect
+          value={location}
+          onChange={(value) => setCustomValue('location', value)}
         />
-         <Map center={location?.latlng} /> */}
+        <Map center={location?.latlng} />
       </div>
     );
   }
