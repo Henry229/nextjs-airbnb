@@ -34,7 +34,7 @@ export default async function getReservations(params: IParams) {
       },
     });
 
-    const safeReservations = reservations.map((reservation) => ({
+    const Reservations = reservations.map((reservation) => ({
       ...reservation,
       createdAt: reservation.createdAt,
       startDate: reservation.startDate,
@@ -45,7 +45,7 @@ export default async function getReservations(params: IParams) {
       },
     }));
 
-    return safeReservations;
+    return Reservations;
   } catch (error: any) {
     throw new Error(error);
   }
